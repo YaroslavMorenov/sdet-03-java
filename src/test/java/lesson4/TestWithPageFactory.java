@@ -4,18 +4,12 @@ import lesson4.helpers.AppProperties;
 import lesson4.helpers.DriverDealer;
 import lesson4.helpers.PageActions;
 import lesson4.pages.*;
+import org.junit.After;
 import org.junit.AfterClass;
-import org.junit.BeforeClass;
+import org.junit.Before;
 import org.junit.Test;
 import org.openqa.selenium.Keys;
 
-/*
-Не понятно почему тесты падают если их запустить все
-Если запускать по отдельности всё ок
-Падаются с ошибкой что не могут выполнить метод loginTest
-org.openqa.selenium.NoSuchElementException:
- no such element: Unable to locate element: {"method":"xpath","selector":"//*[@name = "username"]"}
- */
 public class TestWithPageFactory {
     public static LoginPage loginPage;
     public static MainPage mainPage;
@@ -23,8 +17,8 @@ public class TestWithPageFactory {
     public static CustomersPage customersPage;
     public static InvoicesPage invoicesPage;
 
-    @BeforeClass
-    public static void setup() {
+    @Before
+    public void setup() {
         loginPage = new LoginPage(DriverDealer.getInstance());
         mainPage = new MainPage(DriverDealer.getInstance());
         ordersPage = new OrdersPage(DriverDealer.getInstance());
@@ -32,12 +26,15 @@ public class TestWithPageFactory {
         invoicesPage = new InvoicesPage(DriverDealer.getInstance());
     }
 
-    @AfterClass
-    public static void tearDown() {
+    @After
+    public void logout() {
         PageActions.click(mainPage.account);
         PageActions.click(mainPage.logOut);
+    }
+
+    @AfterClass
+    public static void tearDown() {
         DriverDealer.getInstance().closeDriver();
-        DriverDealer.getInstance().quitDriver();
     }
 
     @Test
