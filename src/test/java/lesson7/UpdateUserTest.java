@@ -1,12 +1,18 @@
 package lesson7;
 
 import io.restassured.RestAssured;
+import io.restassured.http.ContentType;
+import lesson6.helpers.AppProperties;
 import org.junit.Before;
 import org.junit.Test;
+
+import java.io.File;
 
 import static org.hamcrest.Matchers.equalTo;
 
 public class UpdateUserTest {
+    File updateUser = new File(AppProperties.getProperty("updateuser"));
+
     @Before
     public void point() {
         RestAssured.baseURI = "https://petstore.swagger.io";
@@ -16,17 +22,7 @@ public class UpdateUserTest {
     @Test
     public void updateUser() {
         RestAssured.given().log().all()
-                .contentType("application/json").body("{\n" +
-                "    \"id\": 1994,\n" +
-                "    \"username\": \"Morenov\",\n" +
-                "    \"firstName\": \"Yaroslav\",\n" +
-                "    \"lastName\": \"Pavlovich\",\n" +
-                "    \"email\": \"yaroslav@mail.ru\",\n" +
-                "    \"password\": \"qwerty\",\n" +
-                "    \"phone\": \"+7 (922) 222-22-21\",\n" +
-                "    \"userStatus\": 12\n" +
-                "}"
-        )
+                .contentType(ContentType.JSON).body(updateUser)
                 .pathParam("username","Morenov")
                 .when().put("/user/{username}")
                 .then().statusCode(200)

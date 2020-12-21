@@ -1,12 +1,18 @@
 package lesson7;
 
 import io.restassured.RestAssured;
+import io.restassured.http.ContentType;
+import lesson6.helpers.AppProperties;
 import org.junit.Before;
 import org.junit.Test;
+
+import java.io.File;
 
 import static org.hamcrest.Matchers.equalTo;
 
 public class CreatePetTest {
+    File addPet = new File(AppProperties.getProperty("addpet"));
+
     @Before
     public void point() {
         RestAssured.baseURI = "https://petstore.swagger.io";
@@ -18,28 +24,7 @@ public class CreatePetTest {
     @Test
     public void addNewPet() {
         RestAssured.given()
-                .contentType("application/json").body("{\n" +
-                "    \"name\": \"Name\",\n" +
-                "    \"photoUrls\": [\n" +
-                "        \"photos\"\n" +
-                "    ],\n" +
-                "    \"id\": \"2000\",\n" +
-                "    \"category\": {\n" +
-                "        \"id\": \"1\",\n" +
-                "        \"name\": \"cat\"\n" +
-                "    },\n" +
-                "    \"tags\": [\n" +
-                "        {\n" +
-                "            \"id\": \"1\",\n" +
-                "            \"name\": \"color\"\n" +
-                "        },\n" +
-                "        {\n" +
-                "            \"id\": \"2\",\n" +
-                "            \"name\": \"years\"\n" +
-                "        }\n" +
-                "    ],\n" +
-                "    \"status\": \"good\"\n" +
-                "}")
+                .contentType(ContentType.JSON).body(addPet)
                 .when().post("pet")
                 .then().statusCode(200);
     }

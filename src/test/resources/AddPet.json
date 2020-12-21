@@ -1,0 +1,22 @@
+{
+  "name": "Name",
+  "photoUrls": [
+    "photos"
+  ],
+  "id": "2000",
+  "category": {
+    "id": "1",
+    "name": "cat"
+  },
+  "tags": [
+    {
+      "id": "1",
+      "name": "color"
+    },
+    {
+      "id": "2",
+      "name": "years"
+    }
+  ],
+  "status": "good"
+}

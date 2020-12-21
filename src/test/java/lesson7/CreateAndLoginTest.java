@@ -1,13 +1,19 @@
 package lesson7;
 
 import io.restassured.RestAssured;
+import io.restassured.http.ContentType;
+import lesson6.helpers.AppProperties;
 import org.hamcrest.Matchers;
 import org.junit.Before;
 import org.junit.Test;
 
+import java.io.File;
+
 import static org.hamcrest.Matchers.equalTo;
 
 public class CreateAndLoginTest {
+    File createUser = new File(AppProperties.getProperty("createuserpath"));
+
     @Before
     public void point() {
         RestAssured.baseURI = "https://petstore.swagger.io";
@@ -17,17 +23,7 @@ public class CreateAndLoginTest {
     @Test
     public void create() {
         RestAssured.given()
-                .contentType("application/json").body("{\n" +
-                "    \"id\": 1994,\n" +
-                "    \"username\": \"Morenov\",\n" +
-                "    \"firstName\": \"Yaroslav\",\n" +
-                "    \"lastName\": \"Pavlovich\",\n" +
-                "    \"email\": \"yaroslav@mail.ru\",\n" +
-                "    \"password\": \"qwerty\",\n" +
-                "    \"phone\": \"+7 (922) 222-22-22\",\n" +
-                "    \"userStatus\": 12\n" +
-                "}"
-        )
+                .contentType(ContentType.JSON).body(createUser)
                 .when().post("/user")
                 .then().statusCode(200)
                 .and().body("type",equalTo("unknown"));
